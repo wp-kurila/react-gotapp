@@ -16,7 +16,7 @@ export default class CharDetails extends Component {
     GotService = new GotService();    
 
     render() {
-        this.testvivod()
+        
         return (
             <CharDetailsDiv>
                 <h4>John Snow</h4>
