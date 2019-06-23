@@ -67,7 +67,7 @@ export default class RandomChar extends Component {
     }
     
     render() {
-        const {char, loading, error } = this.state;
+        const {char, loading, error } = this.state;       
 
         const errorMessage = error ? <ErrorMessage /> : null; 
         const spinner = loading ? <Spinner /> : null;
@@ -91,19 +91,19 @@ const View = ({char}) => {
             <ul className="list-group list-group-flush">
                 <li className="list-group-item d-flex justify-content-between">
                     <Term>Gender </Term>
-                    <span>{gender}</span>
+                    <span>{ gender.length === 0 ? `Данных нет` : gender }</span>
                 </li>
                 <li className="list-group-item d-flex justify-content-between">
                     <Term>Born </Term>
-                    <span>{born}</span>
+                    <span>{ born.length === 0 ? `Данных нет` : born }</span>
                 </li>
                 <li className="list-group-item d-flex justify-content-between">
                     <Term>Died </Term>
-                    <span>{died}</span>
+                    <span>{ died.length === 0 ? `Данных нет` : died }</span>
                 </li>
                 <li className="list-group-item d-flex justify-content-between">
                     <Term>Culture </Term>
-                    <span>{culture}</span>
+                    <span>{culture.length === 0 ? `Данных нет` : culture}</span>
                 </li>
             </ul>            
         </>
