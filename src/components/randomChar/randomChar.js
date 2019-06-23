@@ -83,27 +83,34 @@ export default class RandomChar extends Component {
     }
 }
 
-const View = ({char}) => {
-    const {name, gender, born, died, culture} = char;
+const View = ({char}) => { 
+
+    for ( let elem in char) {
+        if(char[elem].length === 0) {
+            char[elem] += "Данных нет"
+        }
+    }
+    const {name, gender, born, died, culture} = char;    
+
     return (
         <>
             <h4>Random Character: {name}</h4>
             <ul className="list-group list-group-flush">
                 <li className="list-group-item d-flex justify-content-between">
                     <Term>Gender </Term>
-                    <span>{ gender.length === 0 ? `Данных нет` : gender }</span>
+                    <span>{gender}</span>
                 </li>
                 <li className="list-group-item d-flex justify-content-between">
                     <Term>Born </Term>
-                    <span>{ born.length === 0 ? `Данных нет` : born }</span>
+                    <span>{born}</span>
                 </li>
                 <li className="list-group-item d-flex justify-content-between">
                     <Term>Died </Term>
-                    <span>{ died.length === 0 ? `Данных нет` : died }</span>
+                    <span>{died}</span>
                 </li>
                 <li className="list-group-item d-flex justify-content-between">
                     <Term>Culture </Term>
-                    <span>{culture.length === 0 ? `Данных нет` : culture}</span>
+                    <span>{culture}</span>
                 </li>
             </ul>            
         </>
