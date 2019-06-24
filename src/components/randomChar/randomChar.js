@@ -31,18 +31,21 @@ const Term = styled.span`
     font-weight: bold;
 `
 export default class RandomChar extends Component {
-
-    constructor() {
-        super();
-        this.updateChar();
-    }
-
+   
     gotService = new GotService();
-
     state = {
         char: {},
         loading: true,
         error: false
+    }
+
+    componentDidMount() {
+        this.updateChar();
+        this.timerId = setInterval(this.updateChar, 4000);
+    }
+
+    componentWillUnmount() {
+        clearInterval(this.timerId);
     }
 
     onCharLoaded = (char) => {             
@@ -59,7 +62,7 @@ export default class RandomChar extends Component {
         })
     }
 
-    updateChar() {
+    updateChar = () => {
         const id = Math.round(Math.random() * 140 + 1);        
         this.gotService.getCharacter(id)
             .then(this.onCharLoaded)
@@ -84,12 +87,7 @@ export default class RandomChar extends Component {
 }
 
 const View = ({char}) => { 
-
-    for ( let elem in char) {
-        if(char[elem].length === 0) {
-            char[elem] += "Данных нет"
-        }
-    }
+    
     const {name, gender, born, died, culture} = char;    
 
     return (

@@ -42,18 +42,19 @@ export default class GotService {
     }
 
     _transformCharacter(char) {
-        // console.log(char)  
-        // for(let elem in char) {            
-        //     if( (typeof(char[elem]) === "string" && char[elem].length === 0) ) {
-        //         char[elem].innerText = "Lfyys[ ytn"
-        //     }         
-        // }         
+                 
+        for ( let elem in char) {
+            if(char[elem].length === 0) {
+                char[elem] += "Данных нет";
+            }
+        }       
         return {
             name: char.name,
             gender: char.gender,
             born: char.born,
             died: char.died,
-            culture: char.culture
+            culture: char.culture,
+            id: char.url.split("/")[char.url.split("/").length - 1]          
         }
     }
 

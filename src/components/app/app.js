@@ -2,9 +2,9 @@ import React, {Component} from 'react';
 import {Col, Row, Container} from 'reactstrap';
 import Header from '../header';
 import RandomChar from '../randomChar';
-import ItemList from '../itemList';
-import CharDetails from '../charDetails';
 import styled from 'styled-components';
+import ErrorMessage from '../errorMessage';
+import CharacterPage from '../CharacterPage/';
 
 
 const Button = styled.button`
@@ -18,8 +18,16 @@ export default class App extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            visible: true
+            visible: true,          
+            error: false
         }
+    }
+
+    componentDidCatch() {
+        console.log('error');
+        this.setState({
+            error: true
+        })
     }
 
     toggleVisible = () => {
@@ -28,11 +36,15 @@ export default class App extends Component {
                 visible: !this.state.visible
             }            
         })      
-    }
+    }  
 
     render() {
         const char = this.state.visible ? <RandomChar /> : null;
         const botton = this.state.visible ? `Убрать` : `Вернуть`;
+
+        if(this.state.error) {
+            return <ErrorMessage />
+        }
 
         return (
             <> 
@@ -45,15 +57,8 @@ export default class App extends Component {
                             {char}
                             <Button onClick={this.toggleVisible}>{botton}</Button>
                         </Col>
-                    </Row>
-                    <Row>
-                        <Col md='6'>
-                            <ItemList />
-                        </Col>
-                        <Col md='6'>
-                            <CharDetails />
-                        </Col>
-                    </Row>
+                    </Row>  
+                    <CharacterPage />                  
                 </Container>
             </>
         )
