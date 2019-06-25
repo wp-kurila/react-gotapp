@@ -3,9 +3,7 @@ import './charDetails.css';
 import styled from 'styled-components';
 import GotService from '../../services/GotService';
 import ErrorMessage from '../errorMessage/';
-import Spinner from '../spinner/';
-import img from './test.jpg';
-
+import Spinner from '../spinner';
 
 const CharDetailsDiv = styled.div`
     background-color: #fff;
@@ -28,65 +26,64 @@ export default class CharDetails extends Component {
 
     state = {
         char: null,
-        loading: true,
+        loading: true,        
         error: false
     }
 
     componentDidMount() {
-        this.updateChar();
+        this.updateChar();        
     }
 
-    componentDidUpdate(prevProps) {
+    componentDidUpdate(prevProps) {                  
         if (this.props.charId !== prevProps.charId) {
             this.updateChar();
+            this.setState({loading:true})
         }
     }
 
-    updateChar() {
+    updateChar() {       
         const {charId} = this.props;
         if (!charId) {
             return;
         }
-
         this.gotService.getCharacter(charId)
             .then( (char) => {
                 this.setState({
                     char,
-                    loading: false                    
-                })
-            })        
+                    loading:false                                                          
+                })                             
+            })       
     }   
 
     onError = (err) => {
         this.setState({
-            error: true,
-            loading: false
+            error: true            
         })
-    }   
+    }    
     
-    render() {
+    render() {          
 
-        const {char, error, loading} = this.state;
+        const {char, error, loading} = this.state;        
 
         if (!this.state.char) {
             return <SpanError>Please select a character</SpanError>
-        }
+        }       
 
-        const errorMessage = error ? <ErrorMessage /> : null; 
-        const spinner = loading ? <Spinner /> : null;
-        const content = !(loading || error) ? <View char={char} /> : null
+        const errorMessage = error ? <ErrorMessage /> : null;         
+        const spinner = loading ? <Spinner /> : null;         
+        const content = !(error || loading) ? <View char={char} /> : null;        
 
         return (
             <CharDetailsDiv>
-                {errorMessage}   
-                {spinner}
+                {errorMessage}              
+                {spinner}              
                 {content}
             </CharDetailsDiv>           
         )        
     }
 }
 
-const View = ({char}) => {
+const View = ({char}) => {    
 
     const {name, gender, born, died, culture} = char;
         

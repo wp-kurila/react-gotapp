@@ -16,7 +16,7 @@ export default class ItemList extends Component {
     gotService = new GotService();
 
     state = {
-        charList: null,
+        charList: null,    
         error: false
     }
 
@@ -24,15 +24,14 @@ export default class ItemList extends Component {
         this.gotService.getAllCharacters()
             .then( (charList) => {
                 this.setState({
-                    charList
+                    charList                   
                 })
             })
     }
 
     onError = (err) => {
         this.setState({
-            error: true,
-            loading: false
+            error: true          
         })
     }
 
@@ -57,14 +56,13 @@ export default class ItemList extends Component {
             return <Spinner />
         }
 
-        if (error) {
-            return <ErrorMessage />
-        }
-
+        const errorMessage = error ? <ErrorMessage /> : null;         
         const items = this.renderItems(charList);
+
 
         return (
             <ItemListUl>
+                {errorMessage}               
                 {items}
             </ItemListUl>
         );
