@@ -42,7 +42,8 @@ export default class BooksPage extends Component {
         )
 
         const charDetails = (
-            <CharDetails 
+            <CharDetails
+                message={`Выберите, пожалуйста, книгу из списка`} 
                 itemId={this.state.selectedBook}
                 getData={this.gotService.getBook}>
                 <Field field='numberOfPages' label='Pages' />               

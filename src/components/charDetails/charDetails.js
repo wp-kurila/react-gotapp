@@ -86,10 +86,12 @@ export default class CharDetails extends Component {
         })
     }    
     
-    render() {                 
+    render() { 
+        
+        const message = this.props.message
 
         if (!this.state.item) {
-            return <SpanError>Please select a character</SpanError>
+            return <SpanError>{message}</SpanError>
         }              
         
         const {item, loading} = this.state;        
