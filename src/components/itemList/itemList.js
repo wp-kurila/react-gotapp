@@ -1,7 +1,6 @@
 import React, {Component} from 'react';
 import './itemList.css';
 import styled from 'styled-components';
-import GotService from '../../services/GotService';
 import Spinner from '../spinner';
 import ErrorMessage from '../errorMessage';
 
@@ -11,20 +10,20 @@ const ItemListUl = styled.ul`
         cursor: pointer;
     }
 `
-export default class ItemList extends Component {
-
-    gotService = new GotService();
+export default class ItemList extends Component {   
 
     state = {
-        charList: null,    
+        itemList: null,    
         error: false
     }
 
     componentDidMount() {
-        this.gotService.getAllCharacters()
-            .then( (charList) => {
+        const {getData} = this.props;
+
+        getData()
+            .then( (itemList) => {
                 this.setState({
-                    charList                   
+                    itemList                   
                 })
             })
     }
@@ -35,14 +34,17 @@ export default class ItemList extends Component {
         })
     }
 
-    renderItems(arr) {             
+    renderItems(arr) {                    
         return arr.map( (item) => {
+            const {id} = item;
+            const label = this.props.renderItem(item);
+
             return (
                 <li 
-                    key={item.id}
+                    key={id}
                     className="list-group-item"
-                    onClick={ () => this.props.onCharSelected(item.id) }>
-                    {item.name}
+                    onClick={ () => this.props.onItemSelected(id) }>
+                    {label}
                 </li>
             )
         })
@@ -50,14 +52,14 @@ export default class ItemList extends Component {
 
     render() {
 
-        const {charList, error} = this.state;        
+        const {itemList, error} = this.state;        
 
-        if (!charList) {
+        if (!itemList) {
             return <Spinner />
         }
 
         const errorMessage = error ? <ErrorMessage /> : null;         
-        const items = this.renderItems(charList);
+        const items = this.renderItems(itemList);
 
 
         return (

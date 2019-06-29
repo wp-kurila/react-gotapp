@@ -5,6 +5,7 @@ import GotService from '../../services/GotService';
 import ErrorMessage from '../errorMessage/';
 import Spinner from '../spinner';
 
+
 const CharDetailsDiv = styled.div`
     background-color: #fff;
     padding: 25px 25px 15px 25px;
@@ -20,39 +21,63 @@ const SpanError = styled.span`
     text-align: center;
     font-size: 26px;
 `
+
+const Field = ({item, field, label}) => {
+    return (
+        <li className="list-group-item d-flex justify-content-between">
+            <span className="term">{label}</span>
+            <span>{item[field]}</span>
+        </li>
+    )
+}
+
+export {
+    Field
+}
 export default class CharDetails extends Component {
 
-    gotService = new GotService();    
+      
 
     state = {
-        char: null,
+        item: null,
         loading: true,        
         error: false
     }
 
     componentDidMount() {
-        this.updateChar();        
+        this.updateChar();  
+        this.setState({
+            loading:false
+        })          
     }
 
     componentDidUpdate(prevProps) {                  
-        if (this.props.charId !== prevProps.charId) {
+        if (this.props.itemId !== prevProps.itemId) {
             this.updateChar();
             this.setState({loading:true})
         }
     }
 
     updateChar() {       
-        const {charId} = this.props;
-        if (!charId) {
+        const {itemId} = this.props;
+        if (!itemId) {
             return;
         }
-        this.gotService.getCharacter(charId)
-            .then( (char) => {
+        const {getData} = this.props;
+        getData(itemId)
+            .then( (item) => {
                 this.setState({
-                    char,
-                    loading:false                                                          
-                })                             
-            })       
+                    item,
+                    loading: false           
+                })
+        })
+        // this.gotService.getCharacter(itemId)
+        //     .then( (itemId) => {
+        //         this.setState({
+        //             item: itemId,
+        //             loading:false                                                          
+        //         })                             
+        //     })              
     }   
 
     onError = (err) => {
@@ -61,53 +86,33 @@ export default class CharDetails extends Component {
         })
     }    
     
-    render() {          
+    render() {                 
 
-        const {char, error, loading} = this.state;        
-
-        if (!this.state.char) {
+        if (!this.state.item) {
             return <SpanError>Please select a character</SpanError>
-        }       
-
-        const errorMessage = error ? <ErrorMessage /> : null;         
-        const spinner = loading ? <Spinner /> : null;         
-        const content = !(error || loading) ? <View char={char} /> : null;        
-
-        return (
-            <CharDetailsDiv>
-                {errorMessage}              
-                {spinner}              
-                {content}
-            </CharDetailsDiv>           
-        )        
-    }
-}
-
-const View = ({char}) => {    
-
-    const {name, gender, born, died, culture} = char;
+        }              
         
-    return (  
-            <>
-                <h4>{name}</h4>
-                <ul className="list-group list-group-flush">
-                    <li className="list-group-item d-flex justify-content-between">
-                        <span className="term">Gender</span>
-                        <span>{gender}</span>
-                    </li>
-                    <li className="list-group-item d-flex justify-content-between">
-                        <span className="term">Born</span>
-                        <span>{born}</span>
-                    </li>
-                    <li className="list-group-item d-flex justify-content-between">
-                        <span className="term">Died</span>
-                        <span>{died}</span>
-                    </li>
-                    <li className="list-group-item d-flex justify-content-between">
-                        <span className="term">Culture</span>
-                        <span>{culture}</span>
-                    </li>
-                </ul>        
-            </>
-    );
+        const {item, loading} = this.state;        
+        const {name} = item;
+
+        const spinner = loading ? <Spinner /> : null; 
+               
+        
+        return (  
+                <>
+                    
+                    <div className="char-details rounded">
+                        {spinner}
+                        <h4>{name}</h4>
+                        <ul className="list-group list-group-flush">
+                            {
+                                React.Children.map(this.props.children, (child) => {
+                                    return React.cloneElement(child, {item})
+                                })
+                            }
+                        </ul>       
+                    </div>    
+                </>
+        )
+    }
 }

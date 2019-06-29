@@ -6,18 +6,18 @@ import ErrorMessage from '../errorMessage/';
 import GotService from '../../services/GotService';
 import RowBlock from '../rowBlock';
 
-export default class CharacterPage extends Component {
+export default class HousesPage extends Component {
 
     gotService = new GotService();
 
     state = {
-        selectedChar: null,
+        selectedHouse: null,
         error: false
     }
 
     onItemSelected = (id) => {
         this.setState({
-            selectedChar: id
+            selectedHouse: id
         })
     }
 
@@ -36,19 +36,19 @@ export default class CharacterPage extends Component {
         const itemList = (
             <ItemList 
                 onItemSelected={this.onItemSelected}
-                getData={this.gotService.getAllCharacters}
-                renderItem={({name, gender}) => `${name} (${gender})`}
+                getData={this.gotService.getAllHouses}
+                renderItem={({name, region}) => `${name} (${region})`}
             />
         )
 
         const charDetails = (
             <CharDetails 
-                itemId={this.state.selectedChar}
-                getData={this.gotService.getCharacter}>
-                <Field field='gender' label='Genger' />
-                <Field field='born' label='Born' />                
+                itemId={this.state.selectedHouse}
+                getData={this.gotService.getHouse}>
+                <Field field='region' label='Region' />
+                {/* <Field field='born' label='Born' />                
                 <Field field='died' label='Died' />                
-                <Field field='culture' label='Culture' />                
+                <Field field='culture' label='Culture' />                 */}
             </CharDetails>
         )
 

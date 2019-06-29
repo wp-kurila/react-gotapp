@@ -3,7 +3,7 @@ export default class GotService {
         this._apiBase = "https://anapioficeandfire.com/api";
     }
 
-    async getResource(url) {
+    getResource = async (url) => {
         const res = await fetch (`${this._apiBase}${url}`);
 
         if (!res.ok) {
@@ -11,32 +11,32 @@ export default class GotService {
         }
         return await res.json();
     }
-    async getAllCharacters() {
-        const res = await this.getResource(`/characters?page=60&pageSize=10`);
+    getAllCharacters = async () => {
+        const res = await this.getResource(`/characters?page=70&pageSize=10`);
         return res.map(this._transformCharacter);
     }
 
-    async getCharacter(id) {
+    getCharacter = async (id) => {
         const character = await this.getResource(`/characters/${id}`);     
         return this._transformCharacter(character);
     }
 
-    async getAllHouses() {
+    getAllHouses = async () => {
         const res = await this.getResource(`/houses/`);        
         return res.map(this._transformHouses);
     }
 
-    async getHouse(id) {
+    getHouse = async (id) => {
         const house = await this.getResource(`/houses/${id}`);
         return this._transformHouses(house);
     }
 
-    async getAllBooks() {
+    getAllBooks = async () => {
         const res = await this.getResource(`/books/`);
-        return res.map(this._transformBook);
+        return res.map(this._transformBook);        
     }
 
-    async getBook(id) {
+    getBook = async (id) => {
         const book = await this.getResource(`/books/${id}`);
         return this._transformBook(book);
     }
@@ -54,7 +54,7 @@ export default class GotService {
         return item.url.match(idRegExp)[1];
     }
 
-    _transformCharacter = (char) => {
+    _transformCharacter = (char) => {        
         return {
             name: this.isSet(char.name),
             gender: this.isSet(char.gender),
@@ -65,23 +65,25 @@ export default class GotService {
         }
     }
 
-    _transformHouses = (house) => {
-        return {
+    _transformHouses = (house) => {         
+        return {            
             name: this.isSet(house.name),
             region: this.isSet(house.region),
             words: this.isSet(house.words),
             titles: this.isSet(house.titles),
             overlord: this.isSet(house.overlord),
-            ancestralWeapons: this.isSet(house.ancestralWeapons)
+            ancestralWeapons: this.isSet(house.ancestralWeapons),
+            id: this.extractId(house)
         }
     }
 
-    _transformBook(book) {
+    _transformBook = (book) => {        
         return {
             name: this.isSet(book.name),
             numberOfPages: this.isSet(book.numberOfPages),
             publiser: this.isSet(book.publiser),
-            released: this.isSet(book.released)
+            released: this.isSet(book.released),
+            id: this.extractId(book)
         }
     }
 }
