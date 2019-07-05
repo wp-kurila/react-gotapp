@@ -46,10 +46,8 @@ export default class HousesPage extends Component {
                 message={`Выберите, пожалуйста, дом из списка`} 
                 itemId={this.state.selectedHouse}
                 getData={this.gotService.getHouse}>
-                <Field field='region' label='Region' />
-                {/* <Field field='born' label='Born' />                
-                <Field field='died' label='Died' />                
-                <Field field='culture' label='Culture' />                 */}
+                <Field field='region' label='Region' />                
+                <Field field='words' label='Words' />               
             </ItemDetails>
         )
 
