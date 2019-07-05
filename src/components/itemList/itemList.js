@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React,{Component} from 'react';
 import './itemList.css';
 import styled from 'styled-components';
 import Spinner from '../spinner';
@@ -10,6 +10,13 @@ const ItemListUl = styled.ul`
         cursor: pointer;
     }
 `
+
+const Message = styled.div`
+    color: #fff;
+    text-align: center;
+    font-size: 26px;
+`
+
 export default class ItemList extends Component {   
 
     state = {
@@ -63,10 +70,13 @@ export default class ItemList extends Component {
 
 
         return (
-            <ItemListUl>
+            <>
+                <Message>{this.props.message}</Message>
+                <ItemListUl>
                 {errorMessage}               
                 {items}
             </ItemListUl>
+            </>
         );
     }
 }

@@ -1,20 +1,8 @@
 import React, {Component} from 'react';
-import './charDetails.css';
+import './itemDetails.css';
 import styled from 'styled-components';
-import GotService from '../../services/GotService';
-import ErrorMessage from '../errorMessage/';
 import Spinner from '../spinner';
 
-
-const CharDetailsDiv = styled.div`
-    background-color: #fff;
-    padding: 25px 25px 15px 25px;
-    margin-bottom: 40px;
-    h4 {
-        margin-bottom: 20px;
-        text-align: center;
-    }
-`
 
 const SpanError = styled.span`
     color: #fff;
@@ -34,9 +22,7 @@ const Field = ({item, field, label}) => {
 export {
     Field
 }
-export default class CharDetails extends Component {
-
-      
+export default class ItemDetails extends Component {      
 
     state = {
         item: null,
@@ -70,14 +56,7 @@ export default class CharDetails extends Component {
                     item,
                     loading: false           
                 })
-        })
-        // this.gotService.getCharacter(itemId)
-        //     .then( (itemId) => {
-        //         this.setState({
-        //             item: itemId,
-        //             loading:false                                                          
-        //         })                             
-        //     })              
+        })             
     }   
 
     onError = (err) => {
