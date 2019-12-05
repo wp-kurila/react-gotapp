@@ -77,7 +77,8 @@ export default class GotService {
         }
     }
 
-    _transformBook = (book) => {        
+    _transformBook = (book) => {
+        const {name, numberOfPages, publiser, released} = book;
         return {
             name: this.isSet(book.name),
             numberOfPages: this.isSet(book.numberOfPages),
